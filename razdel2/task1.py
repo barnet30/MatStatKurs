@@ -43,4 +43,5 @@ else:
 p_value = 0
 for i in range(M+1):
     p_value += C(len(z),i) * (p0**len(z))
+p_value = 1 - p_value
 print("P-value = "+str(p_value))

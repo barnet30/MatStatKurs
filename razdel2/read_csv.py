@@ -15,4 +15,13 @@ y.remove('Y')
 x = [float(val) for val in x]
 y = [float(val) for val in y]
 
-df = pd.read_csv('r2z1.csv')
+
+with open ('r2z2.csv') as file:
+    reader = csv.reader(file)
+    sample = []
+    for row in reader:
+        sample.extend(row)
+sample.remove('X')
+sample = [float(val) for val in sample]
+
+df = pd.read_csv('r2z2.csv')
