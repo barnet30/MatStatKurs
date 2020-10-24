@@ -33,12 +33,13 @@ crit_const = 0
 while num < 1 - alf:
     num += C(len(z),crit_const)*(p0**len(z))
     crit_const+=1
-print("Критическая константа = "+str(crit_const))
+print(f"Критическая константа = {crit_const}")
+print(f"Статистика = {M}")
 
 if M > crit_const:
-    print("Гипотеза верна!")
+    print("Гипотеза принимается")
 else:
-    print("Гипотеза неверна")
+    print("Гипотеза отклоняется")
 
 p_value = 0
 for i in range(M+1):
