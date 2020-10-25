@@ -1,8 +1,6 @@
 # Гипотеза H1: увеличится; Гипотеза H0: не увеличится
 
 from razdel2 import read_csv as rc
-# from math import factorial as fact
-# import itertools
 
 def C(n, k):
     if 0 <= k <= n:
@@ -16,6 +14,12 @@ def C(n, k):
     else:
         return 0
 
+def binom_fr(m,n,p):
+    res = 0
+    for i in range(m+1):
+        res += C(n,i) * (p**i) * ((1-p)**(n-i))
+    return res
+
 alf = 0.01
 p0 = 0.5
 
@@ -26,23 +30,23 @@ for i in range(len(rc.x)):
     else:
         z.append(0)
 
-M = sum(z)
+Stat_M = sum(z)
 
-num = 0
 crit_const = 0
+num = binom_fr(crit_const, len(z), p0)
 while num < 1 - alf:
-    num += C(len(z),crit_const)*(p0**len(z))
-    crit_const+=1
-print(f"Критическая константа = {crit_const}")
-print(f"Статистика = {M}")
+    crit_const += 1
+    num = binom_fr(crit_const, len(z), p0)
+crit_const -= 1
 
-if M > crit_const:
+print(f"Критическая область имеет вид: M > {crit_const}")
+print(f"Критическая константа = {crit_const}")
+print(f"Статистика = {Stat_M}")
+
+if Stat_M > crit_const:
     print("Гипотеза принимается")
 else:
     print("Гипотеза отклоняется")
 
-p_value = 0
-for i in range(M+1):
-    p_value += C(len(z),i) * (p0**len(z))
-p_value = 1 - p_value
-print("P-value = "+str(p_value))
+p_value = 1 - binom_fr(Stat_M, len(z), p0)
+print(f"P-value = {p_value}")
