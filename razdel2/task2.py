@@ -4,7 +4,7 @@ from razdel2.read_csv import sample
 import numpy as np
 import collections
 import math
-
+from scipy.special import kolmogorov
 
 
 alf = 0.05
@@ -60,15 +60,14 @@ distribution = sorted(collections.Counter(sample).most_common(), key=lambda elem
 cdf = efr(sample)
 
 
-
-#graph_EFR(sample)
+graph(sample)
 
 D_n = max(max([math.fabs(cdf(val) - exp_fr(l,val)) for val in sample]),
           max([math.fabs(cdf(val+eps) - exp_fr(l,val+eps)) for val in sample]))
 statistic = D_n * math.sqrt(len(sample))
 k_quantil = kolm_quantil(alf)
 
-p_value = kolm_quantil(statistic) ## ВОПРОС!
+p_value = kolmogorov(statistic)
 
 print(f"Критическая область имеет вид: Statistic > {k_quantil}")
 print(f"Критическая константа = {k_quantil}")
@@ -80,10 +79,6 @@ else:
     print("Гипотеза принимается")
 
 print(f"P-value = {p_value}")
-
-
-
-
 
 
 
