@@ -1,5 +1,4 @@
 import csv
-import pandas as pd
 
 with open('r2z1.csv') as file:
     reader = csv.reader(file)
@@ -24,4 +23,3 @@ with open ('r2z2.csv') as file:
 sample.remove('X')
 sample = [float(val) for val in sample]
 
-df = pd.read_csv('r2z2.csv')
