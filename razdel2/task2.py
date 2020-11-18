@@ -29,7 +29,7 @@ def new_efr(sample):
         for i in range(len(amount)):
             if limits[i] < x <= limits[i + 1]:
                 return amount[i]
-        if limits[-1] < x:
+        if x > limits[-1]:
             return 1
     return result
 
@@ -38,7 +38,7 @@ def new_efr(sample):
 def efr(sample):
     sample = np.sort(sample)
     def result(x):
-        return sample[sample <= x].size / sample.size
+        return sample[sample < x].size / sample.size
     return result
 
 
@@ -82,11 +82,11 @@ graph(sample)
 
 exp_df = [exp_fr(l,val)for val in sorted(sample)]
 exp_df = np.array(exp_df)
-df = [new_cdf(val) for val in sorted(sample)]
+df = [cdf(val) for val in sorted(sample)]
 df = np.array(df)
 exp_df_eps = [exp_fr(l,val+eps) for val in sorted(sample)]
 exp_df_eps = np.array(exp_df_eps)
-df_eps = [new_cdf(val+eps) for val in sorted(sample)]
+df_eps = [cdf(val+eps) for val in sorted(sample)]
 df_eps = np.array(df_eps)
 
 D_n = max(abs(exp_df - df))
