@@ -1,34 +1,23 @@
 #MLE 1
+import pandas as pd
+from functools import reduce
 
-from razdel3.read import x1
+data = pd.read_csv('r3z1.csv')
 
-def C(n, k):
-    if 0 <= k <= n:
-        nn = 1
-        kk = 1
-        for t in range(1, min(k,  n - k) + 1):
-            nn *= n
-            kk *= t
-            n -= 1
-        return nn // kk
-    else:
-        return 0
+def estimate(X):
+    return sum(X)/len(X)
 
 
-def binom_P(k,n,p):
-    res = 1
-    res = res * C(n,k) * (p**k) * ((1-p)**(n-k))
-    return res
+def f(x,p):
+    return p*x + (1-p)*(1-x)
 
-k = sum(x1)
-n = len(x1)
-print("Логарифм фукнции правдоподобия: ln L = ln C(n,k) + k * ln p + (n-k) * ln(1-p)")
-print("Оценка для параметра p: k/n")
-print(f"Вычисленное значение p для данной выборки при помощи полученной оценки: {k/n}")
-p1 = 0.4
-p2 = 0.5
-p3 = 0.6
+def L(X,p):
+    return (reduce(lambda x,y: x*y, [f(x, p) for x in X]),p)
 
-# print(binom_P(k,n,p1))
-# print(binom_P(k,n,p2))
-# print(binom_P(k,n,p3))
+print(f"Oценка: {estimate(data['X'])}")
+
+TETA = [0.4,0.5,0.6]
+
+for teta in TETA:
+    print(L(data["X"],teta))
+
